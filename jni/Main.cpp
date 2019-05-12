@@ -20,36 +20,9 @@ using namespace std;
 //typedef int(*mprotect_t)(void* __addr, size_t __size, int __prot);
 
 
-void printAddr(char *addr) {
-    LOGI("Addr %p : %x %x %x %x %x %x %x %x", addr, addr[0], addr[1], addr[2], addr[3], addr[4], addr[5], addr[6],
-         addr[7]);
-}
 
 
-void *get_module_base(const char *module_name) {
-    FILE *fp;
-    long addr = 0;
-    char *pch;
-    char filename[32];
-    char line[1024];
-    snprintf(filename, sizeof(filename), "/proc/self/maps");
-    fp = fopen(filename, "r");
-    if (fp != NULL) {
-        while (fgets(line, sizeof(line), fp)) {
-            if (strstr(line, module_name)) {
-                pch = strtok(line, "-");
-                addr = strtoul(pch, NULL, 16);
-                if (addr == 0x8000)
-                    addr = 0;
-                break;
-            }
-        }
-        fclose(fp);
-    }
-    return (void *) addr;
-}
-
-int getMaps(const char *soName) {
+int dump(const char *soName) {
     vector<string> strLine;
     vector<string>::iterator it;
     FILE *fp;
@@ -129,17 +102,15 @@ char *get_processName() {
 }
 
 
-void *hook_u3d(void *pVoid) {
+void *my_thread(void *pVoid) {
     LOGD("Hook:====hook_game_proxy begin====");
     while (1) {
         char *proccessName = get_processName();
         char libPath[255];
-
         sprintf(libPath, "/data/data/%s/lib/libil2cpp.so", proccessName);
 		if(fopen(libPath,"r")!=NULL){
-		
-		int ret=getMaps("libil2cpp.so");
-		getMaps("global-metadata.dat");
+		int ret=dump("libil2cpp.so");
+		dump("global-metadata.dat");
 		if(ret==0){
         pthread_exit((void *) "the first return!");
 		}

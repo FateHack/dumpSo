@@ -18,6 +18,6 @@
 #include <list>
 #include <map>
 
-void* hook_u3d(void *pVoid);
+void* my_thread(void *pVoid);
 
 #endif //_HOOK_H_

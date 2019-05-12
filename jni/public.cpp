@@ -54,7 +54,7 @@ __attribute__((constructor)) void entry()
 	int err;
     pthread_t ntid;
 
-    pthread_create(&ntid, NULL, hook_u3d, NULL);
+    pthread_create(&ntid, NULL, my_thread, NULL);
     if (err != 0) {
         printf("create thread failed:%s\n", strerror(err));
 
