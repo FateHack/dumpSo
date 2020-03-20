@@ -13,7 +13,7 @@ LOCAL_CFLAGS := -DANDROID_NDK -Wno-psabi \
 				
 
 LOCAL_SRC_FILES +=\
-			public.cpp\
+			Utils.cpp\
 			Main.cpp\
 			
 
