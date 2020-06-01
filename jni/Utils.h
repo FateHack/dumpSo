@@ -26,10 +26,14 @@ struct ProcMap {
 };
 
 
-ProcMap getLibraryMap(const char *libraryName);
+ProcMap getLibraryMap(int pid,const char *libraryName);
 
 std::string getProcName();
 
+std::string getSoName();
+
 bool getFileStat(const char *fileName, struct stat *buffer);
+
+bool isMainProcName();
 
 #endif //UTILS_H
